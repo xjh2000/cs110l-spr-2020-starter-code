@@ -32,7 +32,11 @@ impl Grid {
     /// https://docs.rs/array2d/0.2.1/array2d/struct.Array2D.html
     #[allow(unused)] // TODO: delete this line when you implement this function
     pub fn get(&self, row: usize, col: usize) -> Option<usize> {
-        unimplemented!();
+        // check the border
+        if row >= self.num_rows || col >= self.num_rows {
+            return None;
+        }
+        return Some((self.elems[row * self.num_cols + col]));
         // Be sure to delete the #[allow(unused)] line above
     }
 
@@ -40,7 +44,12 @@ impl Grid {
     /// of bounds, returns Err with an error message.
     #[allow(unused)] // TODO: delete this line when you implement this function
     pub fn set(&mut self, row: usize, col: usize, val: usize) -> Result<(), &'static str> {
-        unimplemented!();
+        // check the border
+        if row >= self.num_rows || col >= self.num_rows {
+            return Err(("you are index over the border"));
+        }
+        self.elems[row * self.num_cols + col] = val;
+        return Ok(());
         // Be sure to delete the #[allow(unused)] line above
     }
 
