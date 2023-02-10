@@ -9,8 +9,8 @@ impl Grid {
     /// Returns a Grid of the specified size, with all elements pre-initialized to zero.
     pub fn new(num_rows: usize, num_cols: usize) -> Grid {
         Grid {
-            num_rows: num_rows,
-            num_cols: num_cols,
+            num_rows,
+            num_cols,
             // This syntax uses the vec! macro to create a vector of zeros, initialized to a
             // specific length
             // https://stackoverflow.com/a/29530932

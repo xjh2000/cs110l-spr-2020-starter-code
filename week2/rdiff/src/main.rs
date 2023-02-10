@@ -1,7 +1,11 @@
-use grid::Grid; // For lcs()
+use std::cmp::max;
+use grid::Grid;
+// For lcs()
 use std::env;
-use std::fs::File; // For read_file_lines()
-use std::io::{self, BufRead}; // For read_file_lines()
+use std::fs::File;
+// For read_file_lines()
+use std::io::{self, BufRead};
+// For read_file_lines()
 use std::process;
 
 pub mod grid;
@@ -9,7 +13,13 @@ pub mod grid;
 /// Reads the file at the supplied path, and returns a vector of strings.
 #[allow(unused)] // TODO: delete this line when you implement this function
 fn read_file_lines(filename: &String) -> Result<Vec<String>, io::Error> {
-    unimplemented!();
+    let f = File::open(filename)?;
+    let f = io::BufReader::new(f);
+    let mut v = Vec::new();
+    for line in f.lines() {
+        v.push(line.unwrap())
+    }
+    Ok((v))
     // Be sure to delete the #[allow(unused)] line above
 }
 
@@ -20,7 +30,19 @@ fn lcs(seq1: &Vec<String>, seq2: &Vec<String>) -> Grid {
     // condition you're watching out for (i.e. as long as your code is written correctly, nothing
     // external can go wrong that we would want to handle in higher-level functions). The unwrap()
     // calls act like having asserts in C code, i.e. as guards against programming error.
-    unimplemented!();
+    let mut grid = Grid::new(seq1.len() + 1, seq2.len() + 1);
+    for i in 0..seq1.len() {
+        for j in 0..seq2.len() {
+            let temp;
+            if seq1[i] == seq2[j] {
+                temp = grid.get(i, j).unwrap() + 1;
+            } else {
+                temp = max(grid.get(i + 1, j).unwrap(), grid.get(i, j + 1).unwrap());
+            };
+            grid.set(i + 1, j + 1, temp);
+        };
+    };
+    grid
     // Be sure to delete the #[allow(unused)] line above
 }
 
@@ -39,7 +61,6 @@ fn main() {
     }
     let filename1 = &args[1];
     let filename2 = &args[2];
-
     unimplemented!();
     // Be sure to delete the #[allow(unused)] line above
 }
@@ -62,6 +83,7 @@ mod test {
 
     #[test]
     fn test_lcs() {
+
         let mut expected = Grid::new(5, 4);
         expected.set(1, 1, 1).unwrap();
         expected.set(1, 2, 1).unwrap();
